@@ -4,6 +4,7 @@ import com.google.api.client.http.*;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.common.flogger.FluentLogger;
 import com.google.gson.Gson;
+import org.example.config.ConfigProvider;
 import org.example.exception.KlaviyoApiException;
 import org.example.exception.KlaviyoAuthException;
 import org.example.exception.KlaviyoClientException;

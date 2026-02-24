@@ -1,4 +1,4 @@
-package org.example;
+package org.example.config;
 
 @FunctionalInterface
 public interface ConfigProvider {

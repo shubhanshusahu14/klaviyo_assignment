@@ -1,5 +1,9 @@
 package org.example;
 
+import org.example.config.ConfigLoader;
+import org.example.config.ConfigProvider;
+import org.example.model.EventRequest;
+
 /**
  * Hello world!
  *
@@ -13,12 +17,12 @@ public class App
 
         KlaviyoClient client = new KlaviyoClient(provider);
 
-        EventRequest request = new EventRequest(
-                "testuser@email.com",
-                "ORD123",
-                499.0,
-                "INR"
-        );
+        EventRequest request = EventRequest.builder()
+                .email("testuser@email.com")
+                .orderId("ORD123")
+                .amount(499.0)
+                .currency("INR")
+                .build();
 
 //        client.sendOrderEvent(request);
 
