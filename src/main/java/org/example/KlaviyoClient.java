@@ -17,37 +17,50 @@ import java.util.Map;
 
 public class KlaviyoClient {
 
+    // Logger for printing request and response details
     private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
+    // HTTP transport used to make API calls
     private final HttpTransport transport = new NetHttpTransport();
+
+    // Gson used for JSON conversion
     private final Gson gson = new Gson();
 
+    // Functional interface for fetching config values
     private final ConfigProvider configProvider;
 
+    // Constructor injection of config provider
     public KlaviyoClient(ConfigProvider configProvider) {
         this.configProvider = configProvider;
     }
 
-
+    // Central method to handle different HTTP errors
     private void handleKlaviyoError(HttpResponseException e) {
 
         int code = e.getStatusCode();
         String message = e.getStatusMessage();
 
+        // Logging error details
         logger.atSevere().log(
                 "Klaviyo API Error [%d]: %s",
                 code,
                 e.getContent()
         );
 
+        // Handling different status codes
         switch (code) {
 
-            case 401, 403 -> throw new KlaviyoAuthException("Authentication failed.", code);
+            case 401, 403 ->
+                    throw new KlaviyoAuthException("Authentication failed.", code);
 
-            case 404 -> throw new KlaviyoClientException("Resource not found.", code);
+            case 404 ->
+                    throw new KlaviyoClientException("Resource not found.", code);
 
-            case 409 -> throw new KlaviyoClientException("Duplicate resource.", code);
+            case 409 ->
+                    throw new KlaviyoClientException("Duplicate resource.", code);
 
-            case 429 -> throw new KlaviyoServerException("Rate limit exceeded.", code);
+            case 429 ->
+                    throw new KlaviyoServerException("Rate limit exceeded.", code);
 
             default -> {
                 if (code >= 500) {
@@ -62,7 +75,7 @@ public class KlaviyoClient {
     }
 
 
-
+    // This method applies authentication headers before every API call
     private void applyAuthentication(HttpRequest request) {
         request.getHeaders().set(
                 "Authorization",
@@ -76,7 +89,7 @@ public class KlaviyoClient {
 
 
 
-    // GET METHOD
+    // GET METHOD FOR PARTICULAR EMAIL
 
     public void getOrderEventsByEmail(String email) throws IOException {
 
@@ -138,7 +151,7 @@ public class KlaviyoClient {
     }
 
 
-    // GET ALL EVENT WITHOUT PARTICULAR EMAIL
+    // GET ALL EVENTS WITHOUT EMAIL FILTER
 
     public void getAllEvents() throws IOException {
 
@@ -214,7 +227,7 @@ public class KlaviyoClient {
 
     // -------------------- JSON BUILDER --------------------
 
-    private String buildEventJson(EventRequest req) {
+     String buildEventJson(EventRequest req) {
 
         MetricAttributes metricAttr = new MetricAttributes("Placed Order");
         MetricData metricData = new MetricData("metric", metricAttr);

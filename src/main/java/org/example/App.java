@@ -4,10 +4,7 @@ import org.example.config.ConfigLoader;
 import org.example.config.ConfigProvider;
 import org.example.model.EventRequest;
 
-/**
- * Hello world!
- *
- */
+
 public class App 
 {
     public static void main(String[] args) throws Exception {
