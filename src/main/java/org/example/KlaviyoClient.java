@@ -254,8 +254,8 @@ public class KlaviyoClient {
 }
 
 
+//JSON structure for understanding
 
-//String a = """
 //        {
 //            "data": {
 //                "type": "event",
@@ -284,4 +284,3 @@ public class KlaviyoClient {
 //                }
 //            }
 //        }
-//        """;
